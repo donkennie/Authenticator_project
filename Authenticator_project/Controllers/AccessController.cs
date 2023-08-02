@@ -20,6 +20,7 @@ namespace Authenticator_project.Controllers
 
 
         [HttpGet("GetFruits")]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetFruits()
         {
             return Ok(await _mediator.Send(new GetFruitsQuery.Query()));          

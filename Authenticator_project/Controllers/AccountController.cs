@@ -22,6 +22,8 @@ namespace Authenticator_project.Controllers
         }
 
         [HttpPost("Login")]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> LoginUser(LoginUserRequest request)
         {
             var loginUserCommand = _mapper.Map<LoginUserCommand>(request);
