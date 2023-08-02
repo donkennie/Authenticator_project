@@ -1,4 +1,5 @@
-﻿using Authenticator_project.Features.Commands;
+﻿using Authenticator_project.Core;
+using Authenticator_project.Features.Commands;
 using Authenticator_project.Services.Abstractions;
 using Authenticator_project.Services.Implementations;
 
@@ -12,7 +13,7 @@ namespace Authenticator_project.Extensions
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
-            //services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             return services;
         }

@@ -7,5 +7,7 @@ namespace Authenticator_project.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public ICollection<AppUserRole> UserRoles { get; set; }
     }
 }

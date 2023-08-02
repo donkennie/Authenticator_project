@@ -1,24 +1,33 @@
 ﻿using Authenticator_project.Core;
 using Authenticator_project.DTOs;
 using Authenticator_project.Features.Commands;
+using Authenticator_project.Models;
+using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authenticator_project.Controllers
 {
-    public class AccountController : BaseAPIController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AccountController : ControllerBase
     {
         public readonly IMediator _mediator;
-        public AccountController(IMediator mediator)
+        public readonly IMapper _mapper;
+        public AccountController(IMapper mapper, IMediator mediator)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
+
         [HttpPost()]
-        public async Task<ActionResult<APIResponse>> LoginUser(LoginDTO request)
+        public async Task<ActionResult<APIResponse>> LoginUser(LoginUserRequest request)
         {
-            //var result = await _mediator.Send(request);
-            //return Ok(result);
-            return HandleResult(await Mediator.Send(new LoginUserCommand {  LoginDTO = request }));
+            var loginUserCommand = _mapper.Map<LoginUserCommand>(request);
+            var result = await _mediator.Send(loginUserCommand);
+            return Ok(result);
         }
+
     }
 }

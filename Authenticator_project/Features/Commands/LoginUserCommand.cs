@@ -11,7 +11,8 @@ namespace Authenticator_project.Features.Commands
 {
     public class LoginUserCommand : IRequest<APIResponse>
     {
-        public LoginDTO LoginDTO { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 
     public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, APIResponse>
@@ -28,20 +29,22 @@ namespace Authenticator_project.Features.Commands
         }
         public async Task<APIResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == request.LoginDTO.UserName);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == request.Username.ToLower());
             if (user is null)
             {
                 return APIResponse.GetFailureMessage(HttpStatusCode.BadRequest, null, ResponseMessages.NotFound);
             }
 
             var result = await _signInManager
-                .CheckPasswordSignInAsync(user, request.LoginDTO.Password, false);
+                .CheckPasswordSignInAsync(user, request.Username, false);
             if(!result.Succeeded)
             {
                 var failedResponse = APIResponse.GetFailureMessage(HttpStatusCode.BadRequest, null, ResponseMessages.NotFound);
             }
 
-            return APIResponse.GetSuccessMessage(HttpStatusCode.Created, data: _tokenService.CreateToken, ResponseMessages.LoginSuccess);
+             var token = await _tokenService.CreateUserObject(user);
+
+            return APIResponse.GetSuccessMessage(HttpStatusCode.Created, data: token, ResponseMessages.LoginSuccess);
 
         }
     }

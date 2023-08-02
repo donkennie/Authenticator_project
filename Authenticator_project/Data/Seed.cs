@@ -1,5 +1,7 @@
 ﻿using Authenticator_project.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Authenticator_project.Data
 {
@@ -8,45 +10,42 @@ namespace Authenticator_project.Data
         public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             var roles = new List<AppRole>
-            {
-                new AppRole { Name = "FrontOffice" },
-                new AppRole { Name = "BackOffice" },
-                new AppRole { Name = "Admin" }
-            };
+        {
+            new AppRole { Name = "FrontOffice" },
+            new AppRole { Name = "BackOffice" },
+            new AppRole { Name = "Admin" }
+        };
 
-            // Create roles
             foreach (var role in roles)
             {
                 await roleManager.CreateAsync(role);
             }
 
             var users = new List<AppUser>
+        {
+            new AppUser
             {
-                new AppUser
-                {
-                    FirstName = "Tracy",
-                    LastName = "Tucker",
-                    Email = "tracy@gmail.com",
-                    UserName = "Tracie",
-                },
+                FirstName = "Tracy",
+                LastName = "Tucker",
+                Email = "tracy@gmail.com",
+                UserName = "Tracie"
+            },
+            new AppUser
+            {
+                FirstName = "Zoey",
+                LastName = "Stevens",
+                Email = "zoey@gmail.com",
+                UserName = "Zoe"
+            },
+            new AppUser
+            {
+                FirstName = "Jenny",
+                LastName = "Nichols",
+                Email = "jennie@gmail.com",
+                UserName = "Jennie"
+            },
 
-                new AppUser
-                {
-                    FirstName = "Zoey",
-                    LastName = "Stevens",
-                    Email = "zoey@gmail.com",
-                    UserName = "Zoe",
-                },
-
-                new AppUser
-                {
-                    FirstName = "Jenny",
-                    LastName = "Nichols",
-                    Email = "jennie@gmail.com",
-                    UserName = "Jennie",
-                },
-
-                 new AppUser
+            new AppUser
                 {
                     FirstName = "Earl",
                     LastName = "Reed",
@@ -69,27 +68,28 @@ namespace Authenticator_project.Data
                     Email = "butler@gmail.com",
                     UserName = "Richie",
                 }
-            };
+        };
 
             foreach (var user in users)
             {
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
 
-                if (user.UserName == "Tracie")
+                if (user.UserName == "tracie")
                 {
-                    await userManager.AddToRoleAsync(user, "FrontOffice");
+                   await userManager.AddToRoleAsync(user, "FrontOffice");
+                   
                 }
-                else if (user.UserName == "Zoe")
+                else if (user.UserName == "zoe")
                 {
-                    await userManager.AddToRoleAsync(user, "BackOffice");
+                     await userManager.AddToRoleAsync(user, "BackOffice");
                 }
-                else if (user.UserName == "Jennie")
+                else if (user.UserName == "jennie")
                 {
-                    await userManager.AddToRoleAsync(user, "Admin");
+                     await userManager.AddToRoleAsync(user, "Admin");
                 }
             }
         }
-
     }
+
 }

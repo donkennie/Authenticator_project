@@ -11,33 +11,35 @@ namespace Authenticator_project.Services.Implementations
 {
     public class TokenService : ITokenService
     {
-        private readonly IConfiguration _config;
-        // private readonly SymmetricSecurityKey _key;
+        private readonly SymmetricSecurityKey _key;
 
         private readonly UserManager<AppUser> _userManager;
 
         public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
             _userManager = userManager;
-            _config = config;
-          //  _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
 
-        public string CreateToken(AppUser user)
+
+        public async Task<string> CreateToken(AppUser user)
         {
             var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                };
+            {
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+            };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(90),
+                Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = creds
             };
 
@@ -48,13 +50,18 @@ namespace Authenticator_project.Services.Implementations
             return tokenHandler.WriteToken(token);
         }
 
+
         public async Task<UserDTO> CreateUserObject(AppUser user)
         {
+            var role = await _userManager.GetRolesAsync(user);
             return new UserDTO
             {
-                Token = CreateToken(user),
+                Token = await CreateToken(user),
                 Username = user.UserName,
+                Role = role.FirstOrDefault(),
             };
         }
     }
+
 }
+
