@@ -1,4 +1,5 @@
 using Authenticator_project.Data;
+using Authenticator_project.Extensions;
 using Authenticator_project.Middleware;
 using Authenticator_project.Models;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
