@@ -26,8 +26,8 @@ namespace Authenticator_project.Services.Implementations
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+               new Claim(ClaimTypes.Name, user.UserName),
+               new Claim(ClaimTypes.Email, user.Email),
             };
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -54,6 +54,7 @@ namespace Authenticator_project.Services.Implementations
         public async Task<UserDTO> CreateUserObject(AppUser user)
         {
             var role = await _userManager.GetRolesAsync(user);
+
             return new UserDTO
             {
                 Token = await CreateToken(user),

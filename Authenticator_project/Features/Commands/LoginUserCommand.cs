@@ -35,11 +35,11 @@ namespace Authenticator_project.Features.Commands
                 return APIResponse.GetFailureMessage(HttpStatusCode.BadRequest, null, ResponseMessages.NotFound);
             }
 
-            var result = await _signInManager
-                .CheckPasswordSignInAsync(user, request.Username, false);
-            if(!result.Succeeded)
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+            if (!result.Succeeded)
             {
-                var failedResponse = APIResponse.GetFailureMessage(HttpStatusCode.BadRequest, null, ResponseMessages.NotFound);
+                return APIResponse.GetFailureMessage(HttpStatusCode.BadRequest, null, ResponseMessages.NotFound);
             }
 
              var token = await _tokenService.CreateUserObject(user);

@@ -31,9 +31,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -52,5 +57,4 @@ catch (Exception ex)
     logger.LogError(ex, "An error occurred during migration");
 }
 
-app.UseRouting();
 await app.RunAsync();
