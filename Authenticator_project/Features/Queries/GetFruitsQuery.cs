@@ -6,12 +6,7 @@ namespace Authenticator_project.Features.Queries
 {
     public class GetFruitsQuery
     {
-
-        public class Query : IRequest<APIResponse>
-        {
-
-        }
-
+        public class Query : IRequest<APIResponse> { }
         public sealed class Handler : IRequestHandler<Query, APIResponse>
         {
             public async Task<APIResponse> Handle(Query request, CancellationToken cancellationToken)
@@ -28,7 +23,7 @@ namespace Authenticator_project.Features.Queries
                     new { Id = 8 , Name = "Pear"}
                 };
 
-                return APIResponse.GetSuccessMessage(HttpStatusCode.Created, data: fruits, ResponseMessages.LoginSuccess);
+                return APIResponse.GetSuccessMessage(HttpStatusCode.Created, data: fruits, ResponseMessages.FetchData);
             }
         }
 

@@ -21,7 +21,7 @@ namespace Authenticator_project.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost()]
+        [HttpPost("Login")]
         public async Task<ActionResult<APIResponse>> LoginUser(LoginUserRequest request)
         {
             var loginUserCommand = _mapper.Map<LoginUserCommand>(request);

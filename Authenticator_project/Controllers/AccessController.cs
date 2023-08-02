@@ -19,7 +19,7 @@ namespace Authenticator_project.Controllers
         public AccessController(IMediator mediator) => _mediator = mediator;
 
 
-        [HttpGet()]
+        [HttpGet("GetFruits")]
         public async Task<ActionResult<APIResponse>> GetFruits()
         {
             return Ok(await _mediator.Send(new GetFruitsQuery.Query()));          
