@@ -9,9 +9,9 @@ namespace Authenticator_project.Data
         {
             var roles = new List<AppRole>
             {
-                new AppRole { Name = "Member" },
-                new AppRole { Name = "Admin" },
-                new AppRole { Name = "Moderator" }
+                new AppRole { Name = "FrontOffice" },
+                new AppRole { Name = "BackOffice" },
+                new AppRole { Name = "Admin" }
             };
 
             // Create roles
