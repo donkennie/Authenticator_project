@@ -23,22 +23,6 @@ Before running the project locally, ensure you have the following:
 - [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/5.0) (or later version)
 - SQLite
 
-### Installation
-
-1. Clone the repository to your local machine:
-
-   ```bash
-   git clone https://github.com/your-username/AuthenticatorProject.git
-
-Navigate to the project folder:
-
-   ```bash
-   cd AuthenticatorProject
-
-Create the SQLite database:
-   ```bash
-dotnet ef database update
-
 
 Logging
 The application uses Serilog for logging, and logs are written to the logs folder in the project directory. Customize Serilog settings in the appsettings.json file.
