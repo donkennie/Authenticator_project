@@ -24,5 +24,12 @@ Before running the project locally, ensure you have the following:
 - SQLite
 
 
+### How to get authorized
+put the bearer text before the token. Just as this;
+
+![Screenshot (57)](https://github.com/donkennie/Authenticator_project/assets/88739172/8055385e-ad86-4f67-8539-affff9b90dff)
+
+
+
 Logging
 The application uses Serilog for logging, and logs are written to the logs folder in the project directory. Customize Serilog settings in the appsettings.json file.
